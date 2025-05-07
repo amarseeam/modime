@@ -5,7 +5,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def map_page():
-    return render_template("map2.html")
+    return render_template("map.html")
 
 @app.route("/run_sim", methods=["POST"])
 def run_sim():
