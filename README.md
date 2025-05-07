@@ -23,10 +23,23 @@ A full-stack web application to simulate oil spills in the Indian Ocean using NO
 | **Modular Python Design**| Separate scripts for Wakashio using fixed data, custom, and forecasted simulations |
 
 ---
+## 📦 Simulation Assets
 
-## 🗺️ Demo Interface
+This project uses two key files to support accurate oil spill modeling:
+
+### `mauritius.bna`
+A **Boundary Node Attribute (BNA)** file that defines the **coastline and land-water boundaries** around Mauritius.  
+It enables GNOME to simulate how oil interacts with the island’s geography.
+
+### `vlsfo-im-5-imaros_AD02592.json`
+A **NOAA ADIOS oil properties file** for **Very Low Sulphur Fuel Oil (VLSFO)** — the type spilled by the Wakashio.  
+It provides detailed chemical and physical properties for simulating oil weathering, evaporation, and dispersion.
 
 ---
+
+## 📦 Future Work
+
+Defining safe perimeter, real-time extraction of potential ship hazards nearby, and integration with other software
 
 ## 🧪 Requirements
 
@@ -39,7 +52,7 @@ A full-stack web application to simulate oil spills in the Indian Ocean using NO
   - `vlsfo-im-5-imaros_AD02592.json`
 
 ---
-## Interface Screenshot
+## 🗺️ Demo Interface
 
 ![GUI](gui.png)
 
