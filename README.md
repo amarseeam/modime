@@ -9,7 +9,7 @@ A full-stack web application to simulate oil spills in the Indian Ocean using NO
 - 📈 Output formats: NetCDF (`.nc`), KMZ (`.kmz`), and animated `.gif`
 - ⚙️ Flask backend with Conda-managed GNOME environment
 
----
+---Developed for the project : Modelling Oil Dispersion and Impacts on the Mauritian Ecosystem: MODIME---
 
 ## 📦 Features
 
