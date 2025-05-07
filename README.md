@@ -39,6 +39,9 @@ A full-stack web application to simulate oil spills in the Indian Ocean using NO
   - `vlsfo-im-5-imaros_AD02592.json`
 
 ---
+## Interface Screenshot
+
+![GUI](gui.png)
 
 ## 🚀 Quick Start
 
