@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Wakashio Simulation</title>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <style>
+    body { font-family: sans-serif; }
+    #map { height: 500px; width: 100%; position: relative; }
+    #console {
+      background: #111; color: #0f0;
+      font-family: monospace;
+      padding: 1em;
+      height: 200px; overflow-y: scroll;
+      margin-top: 1em;
+    }
+    #output-pane {
+      margin-top: 1em;
+      border: 1px solid #ccc;
+      padding: 10px;
+    }
+    #sim-image {
+      max-width: 100%;
+      border: 1px solid #aaa;
+    }
+
+    #map, .leaflet-container {
+      cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="32" width="32"><text y="22" font-size="24">🚢</text></svg>') 16 16, auto;
+    }
+  </style>
+</head>
+<body>
+  <h2>Click within the red box to run a spill simulation</h2>
+
+  <label for="mode-select"><strong>Select Simulation Mode:</strong></label>
+  <select id="mode-select">
+    <option value="wakashio">Wakashio Conditions</option>
+    <option value="wind_now">Real Wind from open-meteo(Today + 7 Days forecast)</option>
+    <option value="custom">Custom Setup</option>
+  </select>
+  <br><br>
+
+  <div id="map"></div>
+
+  <div id="console"><strong>Console Output:</strong><br></div>
+  <div id="output-pane">
+    <strong>Simulation GIF:</strong><br>
+    <img id="sim-image" src="" alt="Simulation result will appear here" />
+  </div>
+
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script>
+    const map = L.map('map').setView([-20.3, 57.6], 10);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 18,
+    }).addTo(map);
+
+    const consoleDiv = document.getElementById("console");
+    const simImage = document.getElementById("sim-image");
+
+    let isRunning = false;
+    let timerId;
+    let startTime;
+
+    const allowedBounds = L.latLngBounds(
+      L.latLng(-20.60, 57.30),
+      L.latLng(-19.90, 57.90)
+    );
+
+    L.rectangle(allowedBounds, {
+      color: "#f00",
+      weight: 2,
+      dashArray: "4"
+    }).addTo(map);
+
+    let marker, spillCircle;
+
+    function log(msg) {
+      const line = document.createElement("div");
+      line.textContent = msg;
+      consoleDiv.appendChild(line);
+      consoleDiv.scrollTop = consoleDiv.scrollHeight;
+    }
+
+    function startTimer() {
+      startTime = Date.now();
+      timerId = setInterval(() => {
+        const secs = Math.floor((Date.now() - startTime) / 1000);
+        log(`Simulation running... (${secs}s)`);
+      }, 5000);
+    }
+
+    function stopTimer() {
+      clearInterval(timerId);
+    }
+
+    function showSpill(lat, lon) {
+      if (marker) map.removeLayer(marker);
+      if (spillCircle) map.removeLayer(spillCircle);
+
+      marker = L.marker([lat, lon]).addTo(map);
+      spillCircle = L.circle([lat, lon], {
+        radius: 2000,
+        color: 'red',
+        fillColor: 'orange',
+        fillOpacity: 0.5
+      }).addTo(map);
+    }
+
+    map.on('click', function(e) {
+      if (isRunning) {
+        log("Simulation already in progress, please wait...");
+        return;
+      }
+
+      if (!allowedBounds.contains(e.latlng)) {
+        log("Click outside the simulation zone. Try inside the red box.");
+        return;
+      }
+
+      const lat = e.latlng.lat;
+      const lon = e.latlng.lng;
+      const mode = document.getElementById("mode-select").value;
+
+      isRunning = true;
+      log(`Running simulation at: ${lat}, ${lon} (mode: ${mode})`);
+      startTimer();
+
+      fetch("/run_sim", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ lat, lon, mode })
+      })
+      .then(res => res.json())
+      .then(data => {
+        stopTimer();
+        log("---- Simulation COMPLETE ----");
+        simImage.src = "https://modime.cfd/graphs/images2/coastall_anim.gif?" + new Date().getTime();
+        showSpill(lat, lon);
+      })
+      .catch(err => log("Error: " + err))
+      .finally(() => {
+        isRunning = false;
+      });
+    });
+  </script>
+</body>
+</html>
