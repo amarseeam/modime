@@ -17,10 +17,10 @@ A full-stack web application to simulate oil spills in the Indian Ocean using NO
 |--------------------------|-------------|
 | **Click-to-Spill**       | Choose coordinates on the map to simulate an oil spill |
 | **Wind Forecast**        | Automatically fetches 7-day forecast based on clicked location |
-| **Custom Spill Logic**   | Configurable release duration, oil volume, and model duration |
+| **Custom Spill Logic**   | Configurable release duration, oil volume, and model duration (in progress) |
 | **GNOME Integration**    | Uses `gnome.scripting` to define oceanographic movers and weatherers |
 | **Simulation Outputs**   | NetCDF, KMZ, and image sequence/GIF available for download or display |
-| **Modular Python Design**| Separate scripts for Wakashio, custom, and forecasted simulations |
+| **Modular Python Design**| Separate scripts for Wakashio using fixed data, custom, and forecasted simulations |
 
 ---
 
