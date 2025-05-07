@@ -135,7 +135,7 @@
       .then(data => {
         stopTimer();
         log("---- Simulation COMPLETE ----");
-        simImage.src = "https://modime.cfd/graphs/images2/coastall_anim.gif?" + new Date().getTime();
+        simImage.src = "/graphs/images/coastall_anim.gif?" + new Date().getTime();
         showSpill(lat, lon);
       })
       .catch(err => log("Error: " + err))
