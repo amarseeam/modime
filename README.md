@@ -1,4 +1,4 @@
-# 🛢️ Wakashio Spill Simulation Platform
+# 🛢️ Modular Oil Disaster Interactive Modeling Environment: 
 
 A full-stack web application to simulate oil spills in the Indian Ocean using NOAA's GNOME modeling engine. Designed originally to simulate the MV Wakashio disaster near Mauritius, this platform supports:
 
@@ -9,7 +9,7 @@ A full-stack web application to simulate oil spills in the Indian Ocean using NO
 - 📈 Output formats: NetCDF (`.nc`), KMZ (`.kmz`), and animated `.gif`
 - ⚙️ Flask backend with Conda-managed GNOME environment
 
----Developed for the project : Modular Oil Disaster Interactive Modeling Environment: MODIME---
+
 
 ## 📦 Features
 
